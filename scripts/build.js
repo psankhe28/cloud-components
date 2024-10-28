@@ -47,11 +47,6 @@ nextTask("Cleaning up previous build", () => {
   );
 });
 
-// TODO:
-// force installing dependencies is not ideal
-// rewrite to ask for permission for each dependency that isnr present or just throw error
-// add option for user to add prettier config
-// reading from package json for some reason does not block other processes
 nextTask("verifying dependencies", async () => {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonDir, "utf-8"));
 
@@ -119,11 +114,13 @@ nextTask("Building source", async () => {
   const config = {
     format: "esm",
     target: "es2017",
+    platform: "browser",
     entry: [
       normalizePath(`${sourceDir}/index.ts`),
-      ...(await fg(normalizePath(`${sourceDir}/components/**/!(*.(test)).ts`))),
+      ...(await fg(normalizePath(`${sourceDir}/components/**/!(*.(test)).ts`), {
+        ignore: ["**/tests/**"],
+      })),
       ...(await fg(normalizePath(`${sourceDir}/react/**/*.ts`))),
-      ...(await fg(normalizePath(`${sourceDir}/utilities/**/*.ts`))),
     ],
     splitting: true,
     treeshake: true,
@@ -138,6 +135,7 @@ nextTask("Building source", async () => {
       ...config,
       esbuildOptions(buildOptions) {
         buildOptions.chunkNames = "chunks/[name].[hash]";
+        buildOptions.platform = "browser";
       },
     })
     .catch((err) => {

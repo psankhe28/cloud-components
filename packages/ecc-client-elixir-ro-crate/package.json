@@ -1,5 +1,5 @@
 {
-  "name": "ecc-client-elixir-ro-crate",
+  "name": "@elixir-cloud/ro-crate",
   "description": "Web components for interacting with ro-crates",
   "main": "index.js",
   "type": "module",
@@ -40,7 +40,7 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@elixir-cloud/design": "^0.1.1",
+    "@elixir-cloud/design": "^1.0.0",
     "lit": "^3.2.0"
   }
 }

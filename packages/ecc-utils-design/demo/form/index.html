@@ -135,6 +135,17 @@
           },
         },
         {
+          key: "id2",
+          label: "ID",
+          type: "file",
+          fileOptions: {
+            protocol: "tus",
+            tusOptions: {
+              endpoint: "https://tusd.tusdemo.net/files/",
+            },
+          },
+        },
+        {
           key: "gender",
           label: "Gender",
           type: "select",
@@ -244,6 +255,9 @@
                 .querySelector("ecc-utils-design-form")
                 .error({ message: "Error fetching data" });
             }
+          }}
+          @ecc-utils-change=${(e) => {
+            console.log("form - changed", e.detail);
           }}
         >
         </ecc-utils-design-form> `,
